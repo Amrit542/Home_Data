@@ -1,5 +1,9 @@
-<h1>
-  {{title}}
-</h1>
-<app-stock-item [stock]="stock"
-                (toggleFavorite)="onToggleFavorite($event)"></app-stock-item>
+<div style="text-align: center">
+  <h1>Welcome to {{ title }}!</h1>
+  <h3>App level: {{ messageService.message }}</h3>
+
+  <app-stock-list></app-stock-list>
+</div>
+<hr />
+<h2>Template driven - Create Stock</h2>
+<app-create-stock></app-create-stock>
