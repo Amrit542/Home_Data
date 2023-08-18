@@ -25,6 +25,7 @@ router.post('/', (req, res) => {
         .json({msg: 'Stock with code ' + stock.code + ' already exists'});
   }
   stocks.push(stock);
+  console.log(stocks);
   return res.status(200).json({msg: 'Stock with code ' + stock.code + ' successfully created'});
 });
 
