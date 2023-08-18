@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { StockItemComponent } from './stock/stock-item/stock-item.component';
@@ -16,7 +17,10 @@ import { StockListComponent } from './stock-list/stock-list.component';
     CreateStockComponent,
     StockListComponent,
   ],
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule],
+  imports: [BrowserModule, 
+            FormsModule, 
+            ReactiveFormsModule,
+            HttpClientModule],
   providers: [StockService],
   bootstrap: [AppComponent, MessageService],
 })

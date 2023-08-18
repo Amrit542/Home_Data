@@ -16,9 +16,17 @@ export class CreateStockComponent {
   constructor(
     private stockService: StockService,
     public messageService: MessageService
-  ) {
-    this.stock = new Stock('Test', 'ASR', 45, 20, 'NYSE');
-    this.messageService.message = 'Component level: Hello Service';
+  ) {this.initializeStock()}
+
+  initializeStock() {
+    this.stock =  {
+      name: 'Amrit 1',
+      code: 'AAS',
+      price: 100,
+      previousPrice: 200,
+      exchange: 'NASDAQ',
+      favorite: false
+    };
   }
 
   setStockPrice(price) {
@@ -30,18 +38,15 @@ export class CreateStockComponent {
     console.log('Creating stock ', stockform);
 
     if (stockform.valid) {
-      console.log('Creating stock ' + this.stock);
-      let created = this.stockService.createStock(this.stock);
-      if (created) {
-        this.messageService.message =
-          'Successfully created Stock with stock code ' + this.stock.code;
-        this.stock = new Stock('', '', 0, 0, 'NASDAQ');
-      } else {
-        this.messageService.message =
-          'Stock with stock code ' + this.stock.code + ' already exits';
-      }
-    } else {
-      console.log('Stock form is in invalid state');
+      this.stockService.createStock(this.stock)
+      .subscribe((result: any) => {
+        this.messageService.message = result.msg;
+        this.initializeStock();
+      }, (err)=>{
+        this.messageService.message = err.error.msg;
+      });
+  } else {
+    console.log('Stock form is in an invalid state');
     }
   }
 }

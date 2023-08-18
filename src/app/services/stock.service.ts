@@ -1,35 +1,26 @@
+import { HttpClient } from '@angular/common/http';
 import { Stock } from '../model/stock';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class StockService {
   private stocks: Stock[];
-  constructor() {
-    this.stocks = [
-      new Stock('Test Stock Company', 'TSC', 85, 80, 'NASDAQ'),
-      new Stock('Second Stock', 'SSC', 10, 20, 'NSE'),
-      new Stock('Last Stock Company', 'LSC', 875, 780, 'NYSE'),
-    ];
+  constructor(private http: HttpClient) {}
+  
+
+  getStocks(): Observable<Stock[]> {
+    return this.http.get<Stock[]>('/api/stock')
   }
 
-  getStocks(): Stock[] {
-    return this.stocks;
-  }
-
-  createStock(stock: Stock) {
-    let foundStock = this.stocks.find((each) => each.code == stock.code);
-    if (foundStock) {
-      return false;
-    }
-    this.stocks.push(stock);
-    return true;
+  createStock(stock: Stock): Observable<any> {
+    return this.http.post('/api/stock', stock);
   }
 
   toggleFavourite(stock: Stock) {
-    let foundStock = this.stocks.find((each) => each.code == stock.code);
-    if (foundStock) {
-      foundStock.favorite = !foundStock?.favorite;
-    }
+   
+    return this.http.patch<Stock>('api/stock/' + stock.code, {
+      favourite: !stock.favorite
+    })
   }
 }

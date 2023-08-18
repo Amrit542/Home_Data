@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Stock } from '../../model/stock';
 import { StockService } from 'src/app/services/stock.service';
@@ -10,15 +10,18 @@ import { StockService } from 'src/app/services/stock.service';
 })
 export class StockItemComponent {
   @Input() public stock: Stock;
-  @Output() toggleFavorite: EventEmitter<Stock>;
+ 
 
-  constructor() {
-    this.toggleFavorite = new EventEmitter<Stock>();
-  }
+  constructor(private stockService: StockService) {}
 
   onToggleFavorite(event) {
-    console.log(event);
-
-    this.toggleFavorite.emit(this.stock);
+    this.stockService.toggleFavourite(this.stock).subscribe((stock)=>{
+      this.stock.favorite = !this.stock.favorite;
+    })
+    
   }
 }
+ 
+
+
+
